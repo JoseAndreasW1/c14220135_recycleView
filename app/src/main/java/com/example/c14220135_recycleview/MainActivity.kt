@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -24,9 +25,7 @@ class MainActivity : AppCompatActivity() {
             _nama = resources.getStringArray(R.array.namaWayang)
             _karakter = resources.getStringArray(R.array.karakterUtamaWayang)
             _deskripsi = resources.getStringArray(R.array.deskripsiWayang)
-            val typedArray = resources.obtainTypedArray(R.array.gambarWayang)
-            _gambar = Array(typedArray.length()) { i -> typedArray.getResourceId(i, -1) }
-            typedArray.recycle()
+            _gambar = resources.getStringArray(R.array.gambarWayang)
         }
 
         fun TambahData(){
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun TampilkanData(){
-            _rvWayang.layoutManager = LinearLayoutManager(this)
+            _rvWayang.layoutManager = GridLayoutManager(this,2)
             _rvWayang.adapter = adapterRevView(arWayang)
         }
 
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var _nama: Array<String>
     private lateinit var _karakter: Array<String>
     private lateinit var _deskripsi: Array<String>
-    private lateinit var _gambar: Array<Int>
+    private lateinit var _gambar: Array<String>
 
     private var arWayang = arrayListOf<wayang>()
 

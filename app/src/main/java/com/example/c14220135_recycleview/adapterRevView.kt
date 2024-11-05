@@ -1,6 +1,7 @@
 package com.example.c14220135_recycleview
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class adapterRevView (private val listWayang: ArrayList<wayang>) :
     RecyclerView.Adapter<adapterRevView.ListViewHolder>() {
@@ -35,6 +37,7 @@ class adapterRevView (private val listWayang: ArrayList<wayang>) :
         holder._namaWayang.setText(wayang.nama)
         holder._karakterWayang.setText(wayang.karakter)
         holder._deskripsiWayang.setText(wayang.deskripsi)
-        holder._gambarWayang.setImageResource(wayang.foto)
+        Log.d("TEST", wayang.foto)
+        Picasso.get().load(wayang.foto).into(holder._gambarWayang)
     }
 }
