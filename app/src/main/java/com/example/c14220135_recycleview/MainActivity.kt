@@ -1,6 +1,8 @@
 package com.example.c14220135_recycleview
-
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -8,8 +10,17 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.reflect.Array
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var _nama : kotlin.Array<String>
+    private lateinit var _karakter : kotlin.Array<String>
+    private lateinit var _deskripsi : kotlin.Array<String>
+    private lateinit var _gambar : kotlin.Array<String>
+
+    private var arWayang = ArrayList<wayang>()
+
+    private lateinit var _rvWayang : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,45 +30,44 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        _rvWayang = findViewById(R.id.rvWayang)
 
-        fun SiapkanData(){
-            _nama = resources.getStringArray(R.array.namaWayang)
-            _karakter = resources.getStringArray(R.array.karakterUtamaWayang)
-            _deskripsi = resources.getStringArray(R.array.deskripsiWayang)
-            _gambar = resources.getStringArray(R.array.gambarWayang)
-        }
-
-        fun TambahData(){
-            for(postion in _nama.indices){
-                val data = wayang(
-                    _gambar[postion],
-                    _nama[postion],
-                    _karakter[postion],
-                    _deskripsi[postion]
-                )
-                arWayang.add(data)
-            }
-        }
-
-        fun TampilkanData(){
-            _rvWayang.layoutManager = GridLayoutManager(this,2)
-            _rvWayang.adapter = adapterRevView(arWayang)
-        }
-
-        _rvWayang= findViewById<RecyclerView>(R.id.rvWayang)
-        SiapkanData()
-        TambahData()
-        TampilkanData()
-
+        _rvWayang = findViewById<RecyclerView>(R.id.rvWayang)
+        siapkanData()
+        tambahData()
+        tampilkanData()
     }
-    private lateinit var _nama: Array<String>
-    private lateinit var _karakter: Array<String>
-    private lateinit var _deskripsi: Array<String>
-    private lateinit var _gambar: Array<String>
 
-    private var arWayang = arrayListOf<wayang>()
+    fun siapkanData(){
+        _nama = resources.getStringArray(R.array.namaWayang)
+        _karakter = resources.getStringArray(R.array.karakterUtamaWayang)
+        _deskripsi = resources.getStringArray(R.array.deskripsiWayang)
+        _gambar = resources.getStringArray(R.array.gambarWayang)
+    }
 
-    private lateinit var _rvWayang : RecyclerView
+    fun tambahData(){
+        for (position in _nama.indices){
+            val data = wayang(
+                _gambar[position],
+                _nama[position],
+                _karakter[position],
+                _deskripsi[position]
+            )
+            arWayang.add(data)
+        }
+    }
 
+    fun tampilkanData(){
+        _rvWayang.layoutManager = GridLayoutManager(this, 2)
+        val adapterWayang = adapterRevView(arWayang)
+        _rvWayang.adapter = adapterWayang
+
+        adapterWayang.setOnItemClickCallback(object: adapterRevView.onItemClickCallback{
+            override fun onItemClicked(data: wayang) {
+//                Toast.makeText(this@MainActivity, data.nama, Toast.LENGTH_LONG).show()
+                val intent = Intent(this@MainActivity, detWayang::class.java)
+                intent.putExtra("kirimData", data)
+                startActivity(intent)
+            }
+        })
+    }
 }
