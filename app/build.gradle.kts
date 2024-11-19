@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.c14220135_recycleview"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.c14220135_recycleview"
